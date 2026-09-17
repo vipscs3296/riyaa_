@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message for Riyaa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Page Management */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            transform: scale(0.95);
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        /* Card Container Styling */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 380px;
+            width: 100%;
+            animation: floatCard 4s ease-in-out infinite;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Interactive Buttons */
+        .btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        /* Suspense Box / Interactive Tap Area */
+        .tap-box {
+            background: #ffe3e3;
+            border: 2px dashed #ff6b6b;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .tap-box:hover {
+            background: #ffd0d0;
+        }
+
+        /* Floating background elements */
+        .heart {
+            position: absolute;
+            color: rgba(255, 75, 103, 0.3);
+            animation: rise 5s linear infinite;
+            bottom: -20px;
+            font-size: 20px;
+            user-select: none;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Hearts Generation -->
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 40050);
+    </script>
+
+    <!-- PAGE 1: Welcome & Suspense Intro -->
+    <div class="page active" id="page1">
+        <div class="card">
+            <h1>Hey Riyaa... 🌸</h1>
+            <p>Someone left a secret, very important message here just for you. Are you ready to see what it is?</p>
+            <button class="btn" onclick="nextPage(2)">Tap Here to Open ✨</button>
+        </div>
+    </div>
+
+    <!-- PAGE 2: The Suspense Builder -->
+    <div class="page" id="page2">
+        <div class="card">
+            <h1>Wait a second... 🤔</h1>
+            <p>Before you proceed, you have to promise that you won't stay mad at me after reading this!</p>
+            <div class="tap-box" onclick="revealSecretText()">
+                <span id="tapHint">👉 Tap here to unlock the confession</span>
+            </div>
+            <p id="secretText" style="font-weight: bold; color: #ff4b2b; display: none; margin-bottom: 15px;">Promise accepted? Good! Let's move ahead 👇</p>
+            <button class="btn" id="page2Btn" style="display: none;" onclick="nextPage(3)">Continue ➡️</button>
+        </div>
+    </div>
+
+    <!-- PAGE 3: The Core Apology -->
+    <div class="page" id="page3">
+        <div class="card">
+            <h1>I am truly sorry, Riyaa 🥺</h1>
+            <p>I know I messed up and things haven't been smooth. You mean a lot to me, and I hate knowing that I caused a reason for your frown.</p>
+            <p style="font-size: 0.9rem; font-style: italic;">Can you find it in your heart to forgive me?</p>
+            
+            <div class="btn-group">
+                <button class="btn" onclick="nextPage(4)">Yes, I forgive you! ❤️</button>
+                <button class="btn btn-secondary" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 🙈</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: Success & Celebration -->
+    <div class="page" id="page4">
+        <div class="card">
+            <h1>Yayyy! 🎉</h1>
+            <p>Thank you so much, Riyaa! You just made my entire day. Promise to never repeat that mistake again! 🥰</p>
+            <button class="btn" onclick="resetApp()">Start Over 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation Logic
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page ' + pageNumber).classList.add('active'); // Wait, check matching id strings
+        }
+
+        // Fixed navigation helper mapping IDs properly
+        function nextPage(num) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + num).classList.add('active');
+        }
+
+        // Interactive Secret Revealer on Page 2
+        function revealSecretText() {
+            document.getElementById('secretText').style.display = 'block';
+            document.getElementById('tapHint').style.display = 'none';
+            document.getElementById('page2Btn').style.display = 'inline-block';
+        }
+
+        // Playful "No" button movement on Page 3 (Mobile and Desktop friendly)
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * 140 - 70;
+            const y = Math.random() * 100 - 50;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Reset flow
+        function resetApp() {
+            document.getElementById('secretText').style.display = 'none';
+            document.getElementById('tapHint').style.display = 'inline';
+            document.getElementById('page2Btn').style.display = 'none';
+            document.getElementById('noBtn').style.transform = 'translate(0, 0)';
+            nextPage(1);
+        }
+    </script>
+</body>
+</html>
